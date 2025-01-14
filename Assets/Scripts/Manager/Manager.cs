@@ -25,6 +25,7 @@ public class Manager : MonoBehaviour
 
     ObjectManager _object = new ObjectManager();
     ResourceManager _resource = new ResourceManager();
+    PoolManager _pool = new PoolManager();
     public ObjectManager Object
     {
         get
@@ -38,6 +39,14 @@ public class Manager : MonoBehaviour
         get
         {
             return _resource;
+        }
+    }
+
+    public PoolManager Pool
+    {
+        get
+        {
+            return _pool;
         }
     }
 }

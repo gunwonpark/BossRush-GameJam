@@ -20,7 +20,7 @@ public class ResourceManager
     /// <param name="path"></param>
     /// <param name="parent"></param>
     /// <returns></returns>
-    public GameObject Instantiate(string path, Transform parent = null)
+    public GameObject Instantiate(string path, Transform parent = null, bool isPooling = false)
     {
         GameObject prefab = Load<GameObject>($"Prefabs/{path}");
         if (prefab == null)
@@ -29,14 +29,26 @@ public class ResourceManager
             return null;
         }
 
+        if (isPooling)
+        {
+            return Manager.Instance.Pool.Pop(prefab);
+        }
+
         GameObject go = Object.Instantiate(prefab, parent);
         go.name = prefab.name;
         return go;
     }
 
+
+
     public void Destroy(GameObject go)
     {
         if(go == null)
+        {
+            return;
+        }
+
+        if (Manager.Instance.Pool.Push(go))
         {
             return;
         }
